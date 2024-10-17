@@ -1,0 +1,15 @@
+assemble:
+    - from: build/static
+      into: static
+map-for-objects:
+    htmlElementName: map-for-objects
+    instanceable: true
+    name: Map for Objects
+    portletCategoryName: category.client-extensions
+    type: customElement
+    urls:
+        - js/main.*.js
+        - js/*.chunk.js
+    cssURLs:
+        - css/main.*.css
+    useESM: true
