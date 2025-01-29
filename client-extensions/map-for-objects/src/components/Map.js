@@ -17,17 +17,25 @@ const Map = (props) => {
     mapMarkerSize } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [objects, setObjects] = useState([]);
-  const [bounds, setBounds] = useState([]);
+  const [bounds, setBounds] = useState([
+    [50.505, -29.09],
+    [52.505, 29.09],
+  ]);
   const [latField, setLatField] = useState();
   const [lngField, setLngField] = useState();
   const tooltipField = objectDefinitionTooltip ? objectDefinitionTooltip : objectDefinition.titleObjectFieldName;
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await LiferayService.get(`${objectDefinition.restContextPath}`);
-      const bounds = response.items.map((object) => [object[latField], object[lngField]]);
-      setObjects(response.items);
-      setBounds(bounds);
+      const url = objectDefinition.scope == 'company' ?
+        `${objectDefinition.restContextPath}` :
+        `${objectDefinition.restContextPath}/scopes/${window['Liferay'].ThemeDisplay.getScopeGroupId()}`;
+      const response = await LiferayService.get(url);
+      if (response.items.length > 0) {
+        const bounds = response.items.map((object) => [object[latField], object[lngField]]);
+        setObjects(response.items);
+        setBounds(bounds);
+      }
       setIsLoading(false);
     };
     setIsLoading(true);
