@@ -27,7 +27,7 @@ const Map = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = objectDefinition.scope == 'company' ?
+      const url = objectDefinition.scope === 'company' ?
         `${objectDefinition.restContextPath}` :
         `${objectDefinition.restContextPath}/scopes/${window['Liferay'].ThemeDisplay.getScopeGroupId()}`;
       const response = await LiferayService.get(url);
